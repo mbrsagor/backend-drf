@@ -1,3 +1,1 @@
-from django.shortcuts import render
-
-# Create your views here.
+from .models import Book, Authorfrom .serializers import BookSerializer, AuthorSerializer, UserSerializerfrom django.contrib.auth.models import Userfrom rest_framework import viewsets, filters# Here, viewSets define the view behavior.class UserViewSet(viewsets.ModelViewSet):    queryset = User.objects.all()    serializer_class = UserSerializerclass AuthorViewSet(viewsets.ModelViewSet):    queryset = Author.objects.all()    serializer_class = AuthorSerializerclass BookViewSet(viewsets.ModelViewSet):    queryset = Book.objects.all()    serializer_class = BookSerializer    filter_backends = [filters.OrderingFilter]    ordering_fields = ['release_date']

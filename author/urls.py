@@ -1,1 +1,1 @@
-from django.urls import pathurlpatterns = []
+from .views import UserViewSet, AuthorViewSet, BookViewSetfrom django.urls import pathfrom rest_framework.routers import DefaultRouterrouter = DefaultRouter()router.register('users', UserViewSet)router.register('author', AuthorViewSet)router.register('books', BookViewSet)urlpatterns = []
