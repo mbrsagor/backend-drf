@@ -5,7 +5,7 @@ Here this project Django models many to many relationships how to using API.
 
 The following steps will walk you thru installation on a Mac. Linux should be similar.
 It's also possible to develop on a Windows machine, but I have not documented the steps.
-If you've developed django/react apps on Windows, you should have little problem getting
+If you've developed Django apps on Windows, you should have little problem getting
 up and running.
 
 ### Dependancies
