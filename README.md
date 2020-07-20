@@ -1,4 +1,4 @@
-# ModelsRelationShip
+# ModelsRelationShip API
 Here this project Django models many to many relationships how to using API.
 
 ## Setup
