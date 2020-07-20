@@ -39,7 +39,7 @@ INSTALLED_APPS = [
 
     'author',
 
-    # Custom app
+    # third party app
     'rest_framework',
 ]
 
