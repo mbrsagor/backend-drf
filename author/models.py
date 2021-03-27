@@ -16,7 +16,7 @@ class Book(DomainEntity):
         return self.title
 
 
-class Author(models.Model):
+class Author(DomainEntityl):
     name = models.CharField(max_length=225)
     biography = models.TextField()
     date_of_birth = models.DateField()
