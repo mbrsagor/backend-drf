@@ -1,5 +1,5 @@
-# ModelsRelationShip API
-Here this project Django models many to many relationships how to using API.
+# DRF Backend API
+> Django Rest framework backend API server
 
 ## Setup
 
@@ -10,20 +10,13 @@ up and running.
 
 ### Dependancies
 
-- Python 3.6.9 / Django 3.8
-- Mysql 8.0.19
+- Python 3.8.9 
+- PostgreSQL 13.2
 
-
-If you have already install mysql in your system you may follow the commands list:
-
-```
-mysql -u root -p123
-create database db_name
-```
 Then you will go to config folder and rename `db_config.sample` to `db_config.py`
 
 Create virtualenv in your system then follow the commends:
-```` virtualenv venv --python=python3.6 ````
+```` virtualenv venv --python=python3.8 ````
 
 If you successfully create the virtualenv then activate:
 ```source venv/bin/activate```

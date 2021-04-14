@@ -1,1 +1,0 @@
-from .views import AuthorViewSet, BookViewSet# from django.urls import pathfrom rest_framework.routers import DefaultRouterrouter = DefaultRouter()router.register('authors', AuthorViewSet)router.register('books', BookViewSet)urlpatterns = router.urls

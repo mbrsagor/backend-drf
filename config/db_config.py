@@ -1,1 +1,13 @@
-DATABASES = {    'default': {        'ENGINE': 'django.db.backends.mysql',        'NAME': 'manyToMany',        'USER': 'root',        'PASSWORD': '12345678',        'HOST': 'localhost',  # Or an IP Address that your DB is hosted on        'PORT': '3306',    }}
+# Database
+# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'drf',
+        'USER': 'mbr-sagor',
+        'PASSWORD': '12345',
+        'HOST': 'localhost',
+        # 'PORT': '',
+    }
+}
