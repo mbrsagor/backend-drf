@@ -1,0 +1,9 @@
+venv
+config
+.vscode
+.idea/
+__pycache__/
+db.sqlite3
+migrations/
+media
+.DS_Store
