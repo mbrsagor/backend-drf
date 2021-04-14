@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class DomainEntity(models.Model):
-    name = models.CharField(max_length=10, blank=True, null=True, default='')
+    id = models.AutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated_at = models.DateTimeField(auto_now_add=False, auto_now=True)
 
