@@ -3,8 +3,12 @@ from django.contrib.auth.models import User
 
 
 class DomainEntity(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=10, blank=True, null=True, default='')
+    created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
+    updated_at = models.DateTimeField(auto_now_add=False, auto_now=True)
+
+    class Meta:
+        abstract = True
 
 
 class Server(DomainEntity):
