@@ -1,6 +1,24 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
+
+class DomainEntity(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Server(DomainEntity):
+    owner = models.ForeignKey(User, related_name='server_owner', on_delete=models.CASCADE)
+    name = models.CharField(max_length=40)
+    address = models.URLField()
+
+
+class Task(DomainEntity):
+    task_name = models.CharField(max_length=50)
+    server_name = models.ManyToManyField(Server, related_name='server_task')
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    status = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.task_name
