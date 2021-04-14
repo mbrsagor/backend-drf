@@ -1,5 +1,5 @@
 # DRF Backend API
-> Django Rest framework backend API server
+> Django Rest framework backend API server.
 
 ## Setup
 
