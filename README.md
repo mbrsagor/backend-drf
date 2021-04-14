@@ -1,6 +1,8 @@
 # ModelsRelationShip API
 Here this project Django models many to many relationships how to using API.
 
+> The barnch only for the `Python 3.6.9`
+
 ## Setup
 
 The following steps will walk you thru installation on a Mac. Linux should be similar.
