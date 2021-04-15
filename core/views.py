@@ -1,5 +1,3 @@
-from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -10,6 +8,8 @@ from .serializers import ServerSerializer
 
 
 class ServerAPIView(APIView):
+    permission_classes = [IsAuthenticated, ]
+
     def get(self, request):
         server = Server.objects.all()
         serializer = ServerSerializer(server, many=True)
@@ -24,6 +24,7 @@ class ServerAPIView(APIView):
 
 
 class ServerRetrieveUpdateDeleteAPIView(APIView):
+    permission_classes = [IsAuthenticated, ]
     """
        Server, update or delete a snippet instance.
     """
