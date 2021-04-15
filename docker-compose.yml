@@ -19,7 +19,7 @@ services:
       - radis
   celery:
     build: .
-    command: celery worker --app=drfbackend --loglevel=info
+    command: celery -A core worker -l INFO
     volumes:
       - /app
     depends_on:

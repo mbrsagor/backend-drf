@@ -29,3 +29,9 @@ pip install -r requirements.txt
 ./manage.py migrate
 ./manage.py runserver
 ```
+
+### Docker
+```base
+docker-compose run django
+docker-compose up
+```
