@@ -27,4 +27,27 @@ class ServerRetrieveUpdateDeleteAPIView(APIView):
     """
        Server, update or delete a snippet instance.
     """
-    pass
+
+    def get_object(self, pk):
+        try:
+            return Server.objects.get(pk=pk)
+        except Server.DoesNotExist:
+            raise False
+
+    def get(self, request, pk):
+        server = self.get_object(pk)
+        serializer = ServerSerializer(server)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, pk):
+        server = self.get_object(pk)
+        serializer = ServerSerializer(server, data=request.data)
+        if serializer.is_valid():
+            serializer.save(owner=request.user)
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        server = self.get_object(pk)
+        server.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
