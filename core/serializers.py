@@ -12,12 +12,12 @@ class ServerSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
-    server_name = ServerSerializer(many=True)
+    server = ServerSerializer(many=True)
 
     class Meta:
         model = Task
         fields = [
-            'id', 'task_name', 'server_name', 'start_time', 'end_time', 'status',
+            'id', 'server', 'server_name', 'start_time', 'end_time', 'status',
             'created_at', 'updated_at'
         ]
 

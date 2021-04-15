@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'core',
 
     # 3rd party app
-    'rest_framework'
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

@@ -18,7 +18,7 @@ class Server(DomainEntity):
 
 class Task(DomainEntity):
     task_name = models.CharField(max_length=50)
-    server_name = models.ManyToManyField(Server, related_name='server_task')
+    server = models.ManyToManyField(Server, related_name='server_task')
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     status = models.BooleanField(default=False)
