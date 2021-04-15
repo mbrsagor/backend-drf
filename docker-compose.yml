@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  django:
+    build: .
+    container_name: django
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app/
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1
+      - CELERY_BROKER=radis://radis:6379/0
+      - CELERY_BACKEND=radis://radis:6379/0
+    depends_on:
+      - pgbd
+      - radis
+  celery:
+    build: .
+    command: celery worker --app=drfbackend --loglevel=info
+    volumes:
+      - /app
+    depends_on:
+      - django
+      - radis
+  pgbd:
+    image: postgres
+    container_name: pgbd
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+  radis:
+    image: "redis:alpine"
+volumes:
+  pgdata:
