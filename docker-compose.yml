@@ -11,9 +11,9 @@ services:
       - "8000:8000"
     environment:
       - DEBUG=1
-      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1
-      - CELERY_BROKER=radis://radis:6379/0
-      - CELERY_BACKEND=radis://radis:6379/0
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
     depends_on:
       - pgbd
       - radis
@@ -22,6 +22,11 @@ services:
     command: celery -A core worker -l INFO
     volumes:
       - /app
+    environment:
+      - DEBUG=1
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
     depends_on:
       - django
       - radis
