@@ -12,6 +12,16 @@ class ServerSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
+    server_name = ServerSerializer(many=True)
+
     class Meta:
         model = Task
-        fields = '__all__'
+        fields = [
+            'id', 'task_name', 'server_name', 'start_time', 'end_time', 'status',
+            'created_at', 'updated_at'
+        ]
+
+    def create(self, validated_data):
+        server_ids = {server['id'] for server in validated_data.pop('server_name', [])}
+        tasks = super(TaskSerializer, self).create(validated_data)
+        return tasks

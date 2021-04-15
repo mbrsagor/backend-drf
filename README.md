@@ -12,6 +12,7 @@ up and running.
 
 - Python 3.8.9 
 - PostgreSQL 13.2
+- Django 3.2
 
 Then you will go to config folder and rename `db_config.sample` to `db_config.py`
 

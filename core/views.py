@@ -60,7 +60,15 @@ class ServerRetrieveUpdateDeleteAPIView(APIView):
 
 
 class TaskAPIView(APIView):
+
     def get(self, request):
         task = Task.objects.all()
         task_serializer = TaskSerializer(task, many=True)
         return Response(task_serializer.data)
+
+    def post(self, request):
+        task_serializer = TaskSerializer(data=request.data)
+        if task_serializer.is_valid():
+            task_serializer.save()
+            return Response(task_serializer.data, status=status.HTTP_201_CREATED)
+        return Response(task_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
