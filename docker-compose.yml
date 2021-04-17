@@ -38,7 +38,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
-      - pgdata:/var/lib/postgresql/data/
+      - pgdata:/usr/local/bin/postgres
   radis:
     image: "redis:alpine"
 volumes:
