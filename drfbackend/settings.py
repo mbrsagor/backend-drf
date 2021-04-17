@@ -117,3 +117,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
+
+# SMTP config
+EMAIL_HOST = 'mail.domain.com'
+EMAIL_HOST_USER = 'abc@domain.com'
+EMAIL_HOST_PASSWORD = 'abcdef'
+DEFAULT_FROM_EMAIL = 'abc@domain.com'
+SERVER_EMAIL = 'abc@domain.com'
+EMAIL_PORT = 25
+EMAIL_USE_TLS = False
