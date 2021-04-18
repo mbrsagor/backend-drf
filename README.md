@@ -9,6 +9,7 @@ If you've developed Django apps on Windows, you should have little problem getti
 up and running.
 
 ### Dependancies
+###### Prerequisites
 
 - Python 3.8.9 
 - PostgreSQL 13.2
@@ -33,5 +34,6 @@ pip install -r requirements.txt
 ### Docker
 ```base
 docker-compose run django
+docker-compose build
 docker-compose up
 ```
