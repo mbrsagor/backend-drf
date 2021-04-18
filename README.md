@@ -1,5 +1,5 @@
 # DRF Backend API
-> Django Rest framework backend API server.
+> Django Rest framework backend API server which has to implement Celery and Docker.
 
 ## Setup
 
@@ -14,6 +14,7 @@ up and running.
 - Python 3.8.9 
 - PostgreSQL 13.2
 - Django 3.2
+- Docker.
 
 Then you will go to config folder and rename `db_config.sample` to `db_config.py`
 
@@ -31,7 +32,7 @@ pip install -r requirements.txt
 ./manage.py runserver
 ```
 
-### Docker
+##### If you run the the project Docker, please follow the instructions in this self-learning guide.
 ```base
 docker-compose run django
 docker-compose build
