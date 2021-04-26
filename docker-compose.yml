@@ -1,9 +1,21 @@
 version: '3.8'
 
 services:
+  db:
+    container_name: drfv2
+    image: postgres:13
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    restart: always
+    environment:
+      - POSTGRES_USER=mbr-mbr-sagor
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=drfv2
+    ports:
+      - 5433:5432
   django:
     build: .
-    container_name: django
+    container_name: drfbackend
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app/
