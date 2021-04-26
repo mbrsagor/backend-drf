@@ -34,7 +34,7 @@ pip install -r requirements.txt
 
 ##### If you run the the project Docker, please follow the instructions in this self-learning guide.
 ```base
-docker-compose run django
+docker-compose run drfbackend
 docker-compose build
 docker-compose up
 ```
