@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 import environ
+from datetime import timedelta
 from pathlib import Path
 from config.db_config import DATABASES
 
@@ -150,3 +151,22 @@ CORS_ALLOW_METHODS = (
     'OPTIONS',
     'PATCH',
 )
+
+# Rest Framework Settings
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DATETIME_FORMAT': '%Y-%m-%d %I:%M %p ',
+}
+
+# JET configurations
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1440),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=1440),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+}
