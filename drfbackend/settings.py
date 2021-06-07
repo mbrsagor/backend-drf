@@ -57,7 +57,6 @@ LOCAL_APPS = [
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -133,22 +132,21 @@ CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 
 # SMTP config
-EMAIL_HOST = 'mail.domain.com'
-EMAIL_HOST_USER = 'abc@domain.com'
-EMAIL_HOST_PASSWORD = 'abcdef'
-DEFAULT_FROM_EMAIL = 'abc@domain.com'
-SERVER_EMAIL = 'abc@domain.com'
-EMAIL_PORT = 25
-EMAIL_USE_TLS = False
-
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
+SERVER_EMAIL = env("SERVER_EMAIL")
+EMAIL_PORT = env("EMAIL_PORT")
+EMAIL_USE_TLS = env("EMAIL_USE_TLS")
 
 # CORS CONFIG #
-# CORS_ORIGIN_ALLOW_ALL = True
-# CORS_ALLOW_METHODS = (
-#     'GET',
-#     'POST',
-#     'PUT',
-#     'DELETE',
-#     'OPTIONS',
-#     'PATCH',
-# )
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_METHODS = (
+    'GET',
+    'POST',
+    'PUT',
+    'DELETE',
+    'OPTIONS',
+    'PATCH',
+)
