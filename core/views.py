@@ -2,9 +2,10 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import Server, Task
-from .serializers import ServerSerializer, TaskSerializer
+from .serializers import ServerSerializer, TaskSerializer, CustomTokenObtainPairSerializer
 
 
 class ServerAPIView(APIView):
@@ -72,3 +73,7 @@ class TaskAPIView(APIView):
             task_serializer.save()
             return Response(task_serializer.data, status=status.HTTP_201_CREATED)
         return Response(task_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class JWTLoginView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
