@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .models import Server, Task
-from .serializers import ServerSerializer, TaskSerializer, CustomTokenObtainPairSerializer
+from .models import Server, Task, Schedule
+from .serializers import ServerSerializer, TaskSerializer, CustomTokenObtainPairSerializer, ScheduleSerializer
 
 
 class ServerAPIView(APIView):
@@ -73,6 +73,15 @@ class TaskAPIView(APIView):
             task_serializer.save()
             return Response(task_serializer.data, status=status.HTTP_201_CREATED)
         return Response(task_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ScheduleAPIView(APIView):
+    permission_classes = [IsAuthenticated, ]
+
+    def get(self, request):
+        schedule = Schedule.objects.all()
+        serializer = ScheduleSerializer(schedule, many=True)
+        return Response(serializer.data)
 
 
 class JWTLoginView(TokenObtainPairView):

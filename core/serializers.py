@@ -6,7 +6,7 @@ from rest_framework_simplejwt.utils import datetime_to_epoch
 
 from django.contrib.auth.models import User
 
-from .models import Server, Task
+from .models import Server, Task, Schedule
 
 SUPERUSER_LIFETIME = datetime.timedelta(minutes=90)
 
@@ -34,6 +34,12 @@ class TaskSerializer(serializers.ModelSerializer):
         server_ids = {server['id'] for server in validated_data.pop('server_name', [])}
         tasks = super(TaskSerializer, self).create(validated_data)
         return tasks
+
+
+class ScheduleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Schedule
+        fields = '__all__'
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):

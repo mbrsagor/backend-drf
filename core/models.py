@@ -25,3 +25,11 @@ class Task(DomainEntity):
 
     def __str__(self):
         return self.task_name
+
+
+class Schedule(DomainEntity):
+    name = models.CharField(max_length=30)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
