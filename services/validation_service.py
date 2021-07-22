@@ -1,10 +1,9 @@
-def validate_data(attrs):
-    if "title" in attrs and len(attrs.get("title")) < 1:
+def validate_server_data(attrs):
+    if "owner" in attrs and len(attrs.get("owner")) < 1:
         return "title field is required"
-    elif "options" in attrs and len(attrs["options"]) > 0:
-        options = attrs.get("options")
-        for option in options:
-            if option.get("name", None) is None or option.get("price") is None:
-                return "Provide valid options value"
+    elif "server" in attrs and len(attrs["server"]) < 0:
+        return "server field is required"
+    elif "address" in attrs and len(attrs["address"]) > 0:
+        return "address field is required"
     else:
-        return "Please provide valid options"
+        return True
