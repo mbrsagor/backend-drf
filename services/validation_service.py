@@ -1,4 +1,4 @@
-def validate_requirements_data(attrs):
+def validate_data(attrs):
     if "title" in attrs and len(attrs.get("title")) < 1:
         return "title field is required"
     elif "options" in attrs and len(attrs["options"]) > 0:
