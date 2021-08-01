@@ -6,9 +6,9 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import Server, Task, Schedule
 from .serializers import ServerSerializer, TaskSerializer, CustomTokenObtainPairSerializer, ScheduleSerializer
-from services.validation_service import validate_schedule_data
+from services.validation_service import validate_server_data, validate_schedule_data
 from utils.custom_responses import (prepare_success_response, prepare_error_response,
-                                           prepare_create_success_response)
+                                    prepare_create_success_response)
 
 
 class ServerAPIView(APIView):
@@ -25,10 +25,13 @@ class ServerAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
+        validate_error = validate_server_data(request.data)
+        if validate_error is not None:
+            return Response(prepare_error_response(validate_error), status=status.HTTP_400_BAD_REQUEST)
         serializer = ServerSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(owner=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(prepare_create_success_response(serializer.data), status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -50,17 +53,25 @@ class ServerRetrieveUpdateDeleteAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk):
+        validate_error = validate_server_data(request.data)
+        if validate_error is not None:
+            return Response(prepare_error_response(validate_error), status=status.HTTP_400_BAD_REQUEST)
         server = self.get_object(pk)
-        serializer = ServerSerializer(server, data=request.data)
-        if serializer.is_valid():
-            serializer.save(owner=request.user)
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if server is not None:
+            serializer = ServerSerializer(server, data=request.data)
+            if serializer.is_valid():
+                serializer.save(owner=request.user)
+                return Response(serializer.data, status=201)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(prepare_error_response("No data found for this ID"), status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
         server = self.get_object(pk)
-        server.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if server is not None:
+            server.delete()
+            return Response(prepare_success_response("Data deleted successfully"), status=status.HTTP_200_OK)
+        return Response(prepare_error_response("Content Not found"), status=status.HTTP_400_BAD_REQUEST)
 
 
 class TaskAPIView(APIView):
@@ -87,10 +98,13 @@ class ScheduleAPIView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
+        validate_error = validate_schedule_data(request.data)
+        if validate_error is not None:
+            return Response(prepare_error_response(validate_error), status=status.HTTP_400_BAD_REQUEST)
         serializer = ScheduleSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(prepare_create_success_response(serializer.data), status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
