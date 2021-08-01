@@ -6,7 +6,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import Server, Task, Schedule
 from .serializers import ServerSerializer, TaskSerializer, CustomTokenObtainPairSerializer, ScheduleSerializer
-from services.validation_service import validate_server_data, validate_schedule_data
+from services.validation_service import validate_server_data, validate_schedule_data, validate_task_data
 from utils.custom_responses import (prepare_success_response, prepare_error_response,
                                     prepare_create_success_response)
 
@@ -82,6 +82,9 @@ class TaskAPIView(APIView):
         return Response(task_serializer.data)
 
     def post(self, request):
+        validate_error = validate_task_data(request.data)
+        if validate_error is not None:
+            return Response(prepare_error_response(validate_error), status=status.HTTP_400_BAD_REQUEST)
         task_serializer = TaskSerializer(data=request.data)
         if task_serializer.is_valid():
             task_serializer.save()
