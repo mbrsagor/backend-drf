@@ -1,10 +1,12 @@
 from django.urls import path
-from .views import ServerAPIView, ServerRetrieveUpdateDeleteAPIView, TaskAPIView, JWTLoginView, ScheduleAPIView
+from . import views
 
 urlpatterns = [
-    path('auth/login/', JWTLoginView.as_view()),
-    path('server/', ServerAPIView.as_view()),
-    path('server/<int:pk>/', ServerRetrieveUpdateDeleteAPIView.as_view()),
-    path('task/', TaskAPIView.as_view()),
-    path('schedule/', ScheduleAPIView.as_view()),
+    path('auth/login/', views.JWTLoginView.as_view()),
+    path('server/', views.ServerAPIView.as_view()),
+    path('server/<int:pk>/', views.ServerRetrieveUpdateDeleteAPIView.as_view()),
+    path('task/', views.TaskAPIView.as_view()),
+    path('schedule/', views.ScheduleAPIView.as_view()),
+    path('schedule/update/<int:pk>/', views.ScheduleAPIUpdateDeleteView.as_view()),
+    path('schedule/delete/<int:pk>/', views.ScheduleAPIUpdateDeleteView.as_view()),
 ]

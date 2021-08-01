@@ -7,3 +7,9 @@ def validate_server_data(attrs):
         return "address field is required"
     else:
         return True
+
+
+# Schedule validations
+def validate_schedule_data(data):
+    if "name" in data and len(data.get("name")) < 1:
+        return "name field is required"
