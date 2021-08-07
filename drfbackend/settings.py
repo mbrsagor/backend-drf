@@ -13,11 +13,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 import environ
 from datetime import timedelta
-from pathlib import Path
-from config.db_config import DATABASES
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# from config.db_config import DATABASES
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -38,7 +37,6 @@ DEBUG = env("DEBUG")
 ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
 # Application definition
-
 DEFAULT_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -107,6 +105,18 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Database
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env("DB_NAME"),
+        'USER': env("DB_USERNAME"),
+        'PASSWORD': env("DB_PASSWORD"),
+        'HOST': env("DB_HOST"),
+        'PORT': env("DB_PORT"),
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
