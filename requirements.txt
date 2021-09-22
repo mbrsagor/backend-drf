@@ -6,7 +6,7 @@ click==7.1.2
 click-didyoumean==0.0.3
 click-plugins==1.1.1
 click-repl==0.1.6
-Django==3.2.4
+Django==3.2.5
 django-cors-headers==3.7.0
 django-environ==0.4.5
 djangorestframework==3.12.4
