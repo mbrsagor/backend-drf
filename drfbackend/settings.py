@@ -49,9 +49,11 @@ DEFAULT_APPS = [
 THIRD_PARTY_APPS = [
     'rest_framework',
     'corsheaders',
+    'djoser',
 ]
 
 LOCAL_APPS = [
+    'accounts',
     'core',
 ]
 
@@ -141,15 +143,17 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = 'accounts.UserAccount'
+
+# Celery configuration
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 
 # SMTP config
+EMAIL_BACKEND = 'django.core.mail.backend.smtp.EmailBackend'
 EMAIL_HOST = env("EMAIL_HOST")
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
-SERVER_EMAIL = env("SERVER_EMAIL")
 EMAIL_PORT = env("EMAIL_PORT")
 EMAIL_USE_TLS = env("EMAIL_USE_TLS")
 
@@ -167,6 +171,11 @@ CORS_ALLOW_METHODS = (
     'OPTIONS',
     'PATCH',
 )
+
+# Djoser
+DJSOER = {
+    'LOGIN_FIELD': 'email'
+}
 
 # Rest Framework Settings
 REST_FRAMEWORK = {
