@@ -3,14 +3,13 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 
 
 class UserAccountManager(BaseUserManager):
-    def create_user(self, email, password=None, **extra_fields):
+    def create_user(self, name, email, password=None):
         if not email:
             raise ValueError("User must have email address")
         email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
+        user = self.model(email=email, name=name)
         user.set_password(password)
         user.save()
-
         return user
 
 
@@ -23,7 +22,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserAccountManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name', '']
+    REQUIRED_FIELDS = ['name', ]
 
     def __str__(self):
         return self.email
