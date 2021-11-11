@@ -26,3 +26,5 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+# https://www.youtube.com/watch?v=lFD5uoCcvSA&list=PLJRGQoqpRwdfoa9591BcUS6NmMpZcvFsM&index=4
