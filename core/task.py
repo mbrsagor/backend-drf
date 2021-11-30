@@ -14,3 +14,7 @@ def create_random_user_accounts(total):
         User.objects.create_user(username=username, email=email, password=password)
     return '{} random users created with success!'.format(total)
 
+
+"""
+Source: https://www.section.io/engineering-education/django-celery-tasks/
+"""
