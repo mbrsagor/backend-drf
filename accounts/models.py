@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
+url = "https://www.youtube.com/watch?v=lFD5uoCcvSA&list=PLJRGQoqpRwdfoa9591BcUS6NmMpZcvFsM&index=4"
+
 
 class UserAccountManager(BaseUserManager):
     def create_user(self, name, email, password=None):
@@ -26,5 +28,3 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
-
-# https://www.youtube.com/watch?v=lFD5uoCcvSA&list=PLJRGQoqpRwdfoa9591BcUS6NmMpZcvFsM&index=4
