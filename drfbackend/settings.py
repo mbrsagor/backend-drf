@@ -14,8 +14,6 @@ import os
 import environ
 from datetime import timedelta
 
-# from config.db_config import DATABASES
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
