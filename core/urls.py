@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('user/login/', views.JWTLoginView.as_view()),
     path('server/', views.ServerAPIView.as_view()),
     path('server/<pk>/', views.ServerRetrieveUpdateDeleteAPIView.as_view()),
     path('task/', views.TaskAPIView.as_view()),

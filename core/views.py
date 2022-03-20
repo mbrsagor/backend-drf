@@ -1,17 +1,16 @@
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import Server, Task, Schedule
-from .serializers import ServerSerializer, TaskSerializer, ScheduleSerializer
+from .serializers import ServerSerializer, TaskSerializer, CustomTokenObtainPairSerializer, ScheduleSerializer
 from services.validation_service import validate_server_data, validate_schedule_data, validate_task_data
 from utils.custom_responses import (prepare_success_response, prepare_error_response,
                                     prepare_create_success_response)
 
 
 class ServerAPIView(APIView):
-    permission_classes = [IsAuthenticated, ]
 
     def get(self, request):
         """
@@ -35,7 +34,6 @@ class ServerAPIView(APIView):
 
 
 class ServerRetrieveUpdateDeleteAPIView(APIView):
-    permission_classes = [IsAuthenticated, ]
     """
        Server, update or delete a server instance.
     """
@@ -92,7 +90,6 @@ class TaskAPIView(APIView):
 
 
 class ScheduleAPIView(APIView):
-    permission_classes = [IsAuthenticated, ]
 
     def get(self, request):
         schedule = Schedule.objects.all()
@@ -111,7 +108,6 @@ class ScheduleAPIView(APIView):
 
 
 class ScheduleAPIUpdateDeleteView(APIView):
-    permission_classes = [IsAuthenticated, ]
 
     def get_object(self, pk):
         try:
@@ -124,7 +120,7 @@ class ScheduleAPIUpdateDeleteView(APIView):
         validate_error = validate_schedule_data(request.data)
         if validate_error is not None:
             return Response(prepare_error_response(validate_error), status=status.HTTP_400_BAD_REQUEST)
-        schedule = Schedule.objects.get(pk=id).first()
+        schedule = Schedule.objects.get(pk=pk).first()
         if schedule is not None:
             serializer = ScheduleSerializer(schedule, data=request.data)
             if serializer.is_valid(raise_exception=True):
@@ -142,3 +138,7 @@ class ScheduleAPIUpdateDeleteView(APIView):
             return Response(prepare_success_response("Data deleted successfully"), status=status.HTTP_200_OK)
         else:
             return Response(prepare_error_response("Content Not found"), status=status.HTTP_400_BAD_REQUEST)
+
+
+class JWTLoginView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
