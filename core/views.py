@@ -2,10 +2,9 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import Server, Task, Schedule
-from .serializers import ServerSerializer, TaskSerializer, CustomTokenObtainPairSerializer, ScheduleSerializer
+from .serializers import ServerSerializer, TaskSerializer, ScheduleSerializer
 from services.validation_service import validate_server_data, validate_schedule_data, validate_task_data
 from utils.custom_responses import (prepare_success_response, prepare_error_response,
                                     prepare_create_success_response)
@@ -143,7 +142,3 @@ class ScheduleAPIUpdateDeleteView(APIView):
             return Response(prepare_success_response("Data deleted successfully"), status=status.HTTP_200_OK)
         else:
             return Response(prepare_error_response("Content Not found"), status=status.HTTP_400_BAD_REQUEST)
-
-
-class JWTLoginView(TokenObtainPairView):
-    serializer_class = CustomTokenObtainPairSerializer
