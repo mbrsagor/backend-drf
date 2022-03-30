@@ -205,7 +205,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'DATETIME_FORMAT': '%Y-%m-%d %I:%M %p ',
+    'DATETIME_FORMAT': '%Y-%m-%d %I:%M %p',
 }
 
 # JET configurations

@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db:
-    container_name: drfv2
+    container_name: drfbackend
     image: postgres:13
     volumes:
       - ./data/db:/var/lib/postgresql/data
@@ -10,7 +10,7 @@ services:
     environment:
       - POSTGRES_USER=mbr-mbr-sagor
       - POSTGRES_PASSWORD=123456
-      - POSTGRES_DB=drfv2
+      - POSTGRES_DB=drf
     ports:
       - 5433:5432
   django:
@@ -49,9 +49,9 @@ services:
     image: postgres
     container_name: pgbd
     environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=drf
+      - POSTGRES_USER=mbr-sagor
+      - POSTGRES_PASSWORD=123456
     volumes:
       - pgdata:/usr/local/bin/postgres
   radis:
