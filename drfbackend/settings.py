@@ -52,7 +52,6 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'core',
-    'message',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
