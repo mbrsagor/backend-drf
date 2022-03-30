@@ -52,6 +52,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'core',
+    'message',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -177,7 +178,7 @@ CORS_ALLOW_METHODS = (
     'PATCH',
 )
 
-# Djoser
+# Djoser config settings for user authentication system
 DJSOER = {
     'LOGIN_FIELD': 'email',
     'USER_CREATE_PASSWORD_RETYPE': True,
