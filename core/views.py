@@ -17,6 +17,7 @@ class ServerAPIView(APIView):
         List all the server for given requested user
         :param request:
         :return:
+        URL: api/server/
         """
         server = Server.objects.all()
         serializer = ServerSerializer(server, many=True)
@@ -35,7 +36,8 @@ class ServerAPIView(APIView):
 
 class ServerRetrieveUpdateDeleteAPIView(APIView):
     """
-       Server, update or delete a server instance.
+    Server, update or delete a server instance.
+    URL: api/server/<pk>/
     """
 
     def get_object(self, pk):
@@ -73,6 +75,11 @@ class ServerRetrieveUpdateDeleteAPIView(APIView):
 
 class TaskAPIView(APIView):
 
+    """
+    Task create and listview API
+    URL: api/task/
+    """
+
     def get(self, request):
         task = Task.objects.all()
         task_serializer = TaskSerializer(task, many=True)
@@ -90,6 +97,9 @@ class TaskAPIView(APIView):
 
 
 class ScheduleAPIView(APIView):
+    """
+    URL: api/schedule/
+    """
 
     def get(self, request):
         schedule = Schedule.objects.all()
@@ -108,6 +118,9 @@ class ScheduleAPIView(APIView):
 
 
 class ScheduleAPIUpdateDeleteView(APIView):
+    """
+    URL: api/schedule/<pk>/
+    """
 
     def get_object(self, pk):
         try:
@@ -141,4 +154,8 @@ class ScheduleAPIUpdateDeleteView(APIView):
 
 
 class JWTLoginView(TokenObtainPairView):
+    """
+    The veiw basically custom uer signIn endpoint.
+    Here, customization JET auth.
+    """
     serializer_class = CustomTokenObtainPairSerializer
