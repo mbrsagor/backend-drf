@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 
 from core.models import Server, Task, Schedule
-from core.serializers import ScheduleSerializer
+from core.serializers.schedule_serializer import ScheduleSerializer
 from services.validation_service import validate_schedule_data
 from utils.custom_responses import (prepare_success_response, prepare_error_response,
                                     prepare_create_success_response)

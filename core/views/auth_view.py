@@ -1,5 +1,5 @@
 from rest_framework_simplejwt.views import TokenObtainPairView
-from core.serializers import CustomTokenObtainPairSerializer
+from core.serializers.auth_serializer import CustomTokenObtainPairSerializer
 
 
 

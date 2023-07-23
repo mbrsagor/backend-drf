@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from core.models import Server, Task, Schedule
-from core.serializers import TaskSerializer
+from core.models import Task
+from core.serializers.task_serializer import TaskSerializer
 from services.validation_service import validate_task_data
 from utils.custom_responses import (prepare_success_response, prepare_error_response,
                                     prepare_create_success_response)

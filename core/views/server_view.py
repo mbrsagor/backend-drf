@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from core.models import Server
-from core.serializers import ServerSerializer
+from core.serializers.server_serializer import ServerSerializer
 from services.validation_service import validate_server_data
 from utils.custom_responses import (prepare_success_response, prepare_error_response,
                                     prepare_create_success_response)
