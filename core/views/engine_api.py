@@ -7,12 +7,12 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 
-from engine.models import Engine, EngineGallery, Manufacturer, EngineType, Model, GovernorType, CleanerType, Category, \
-    Consumption, Dimension, Fuel
+from engine.models import *
 from engine.forms import engine_form
 from engine.forms import fuel_form
 
 
+# Create new engine
 @login_required
 def create_engine_view(request):
     template_name = 'engine/create_engine.html'
