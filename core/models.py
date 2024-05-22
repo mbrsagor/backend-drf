@@ -6,6 +6,10 @@ class DomainEntity(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ['-created_at']
+        abstract = True
+
 
 class Server(DomainEntity):
     owner = models.ForeignKey(User, related_name='server_owner', on_delete=models.CASCADE)
@@ -13,7 +17,7 @@ class Server(DomainEntity):
     address = models.URLField()
 
     def __str__(self):
-        return self.name
+        return self.owner
 
 
 class Task(DomainEntity):
