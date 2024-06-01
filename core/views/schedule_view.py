@@ -4,8 +4,8 @@ from rest_framework.response import Response
 
 
 from core.models import Schedule
-from core.serializers.schedule_serializer import ScheduleSerializer
-from services.validation_service import validate_schedule_data
+from core.serializers import schedule_serializer
+from services import validation_service
 from utils.custom_responses import (prepare_success_response, prepare_error_response,
                                     prepare_create_success_response)
 
@@ -17,11 +17,11 @@ class ScheduleAPIView(APIView):
 
     def get(self, request):
         schedule = Schedule.objects.all()
-        serializer = ScheduleSerializer(schedule, many=True)
+        serializer = schedule_serializer.ScheduleSerializer(schedule, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        validate_error = validate_schedule_data(request.data)
+        validate_error = validation_service.validate_schedule_data(request.data)
         if validate_error is not None:
             return Response(prepare_error_response(validate_error), status=status.HTTP_400_BAD_REQUEST)
         serializer = ScheduleSerializer(data=request.data)
@@ -44,7 +44,7 @@ class ScheduleAPIUpdateDeleteView(APIView):
 
     # Update Schedule
     def put(self, request, pk, format=None):
-        validate_error = validate_schedule_data(request.data)
+        validate_error = validation_service.validate_schedule_data(request.data)
         if validate_error is not None:
             return Response(prepare_error_response(validate_error), status=status.HTTP_400_BAD_REQUEST)
         schedule = Schedule.objects.get(pk=pk).first()
