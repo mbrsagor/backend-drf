@@ -2,10 +2,10 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework import views, status, permissions
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from django.contrib.auth.models import User
 
-from user.models import User
 from utils import responses, messages, mixin
-from user.api.serializers import auth_serializer
+from core.serializers import auth_serializer
 
 
 class CompanySignUpAPIView(views.APIView):
