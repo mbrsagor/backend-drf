@@ -22,7 +22,7 @@ djangorestframework-simplejwt==5.3.1
 djoser==2.3.0
 idna==3.7
 itypes==1.2.0
-Jinja2==3.1.4
+Jinja2==3.1.5
 kombu==5.4.0
 MarkupSafe==2.0.1
 oauthlib==3.2.2
