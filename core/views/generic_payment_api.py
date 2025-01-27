@@ -6,7 +6,7 @@ from user.models import User
 from utils import responses, messages
 
 # Set stripe secret key
-stripe.api_key = "sk_test_51Lr0YSKGVCXjiLa0l2hv4ftP9yhu3jB4IkntMaIarZJhmnSfTT5iqdU0FVkBU3a6SKMbMuRxnA8WSfir74gLds1U00CAdrDMKx"
+stripe.api_key = "stripe_key"
 
 
 class CreateStripeCustomerAPI(views.APIView):
