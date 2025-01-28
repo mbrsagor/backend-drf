@@ -326,3 +326,175 @@ class GetDefaultStripePaymentID(views.APIView):
         except Exception as e:
             return Response(responses.prepare_error_response(f"An unexpected error occurred: {str(e)}"), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+class BulkPaymentView(views.APIView):
+    """
+    Name: Bulk payment system
+    Description: A system to handle bulk payments, including creating a payment intent, 
+    transferring funds to different accounts, and handling Stripe errors.
+    method: POST
+    request_body:
+    """
+    def post(self, request):
+        try:
+            total_amount = request.data.get("total_amount")  # Total charge
+            currency = request.data.get("currency", "usd")
+            payment_method_id = request.data.get("payment_method_id")
+            transfers = request.data.get("transfers")  # List of account transfers
+
+            # Step 1: Create PaymentIntent (Charge Customer)
+            intent = stripe.PaymentIntent.create(
+                amount=total_amount,
+                currency=currency,
+                payment_method=payment_method_id,
+                confirm=True,
+                automatic_payment_methods={
+                    "enabled": True,
+                    "allow_redirects": "never"
+                })
+
+            # Step 2: Transfer funds to different accounts
+            for transfer in transfers:
+                stripe.Transfer.create(
+                    amount=transfer["amount"],  # Amount to send
+                    currency=currency,
+                    destination=transfer["account_id"],  # Stripe Connected Account ID
+                    transfer_group=intent.id
+                )
+            resp = {
+                'status': 'success',
+                "message": "Bulk payment successful"
+
+            }
+            return Response(resp, status=status.HTTP_200_OK)
+        except stripe.error.StripeError as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CreatePaymentMethodIDForCardAPIView(views.APIView):
+    """
+    Name: Create Payment Method ID for Card.
+    Desc: Create Payment Method for Card
+    """
+    def post(self, request):
+        try:
+            # Get the card or bank details from the frontend (usually the request body)
+            card_number = request.data.get("card_number")
+            exp_month = request.data.get("exp_month")
+            exp_year = request.data.get("exp_year")
+            cvc = request.data.get("cvc")
+            card_token = request.data.get("card_token") # 
+            
+            # For development purposes
+            if card_token is not None:
+                 # Create a PaymentMethod using the provided card details
+                payment_method = stripe.PaymentMethod.create(
+                    type="card",
+                    card={"token": card_token}
+                )
+
+                # Return the payment method id back to the frontend
+                return Response({
+                    "payment_method_id": payment_method.id
+                }, status=status.HTTP_200_OK)
+            else:
+                # Create a PaymentMethod using the provided card details
+                payment_method = stripe.PaymentMethod.create(
+                    type="card",
+                    card={
+                        "number": card_number,
+                        "exp_month": exp_month,
+                        "exp_year": exp_year,
+                        "cvc": cvc,
+                    }
+                )
+
+                # Return the payment method id back to the frontend
+                return Response({
+                    "payment_method_id": payment_method.id
+                }, status=status.HTTP_200_OK)
+
+        except stripe.error.StripeError as e:
+            # Handle errors from the Stripe API
+            return Response({
+                "error": str(e)
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CreatePaymentMethodIdForBankAPIView(views.APIView):
+    """
+    Name: Create Payment Method for Bank.
+    Desc: Create Payment Method for Bank
+    """
+    def post(self, request):
+        try:
+            # Get the bank account details from the frontend (usually the request body)
+            routing_number = request.data.get("routing_number")
+            account_number = request.data.get("account_number")
+            account_holder_type = request.data.get("account_holder_type", "individual")  # 'individual' or 'company'
+            bank_token = request.data.get("bank_token")
+            
+            if bank_token is not None:
+                # Create a PaymentMethod using the provided bank account details
+                payment_method = stripe.PaymentMethod.create(
+                    type="us_bank_account",  # For U.S. bank accounts
+                    us_bank_account={"token": bank_token}
+                )
+                # Return the payment method id back to the frontend
+                return Response({
+                    "payment_method_id": payment_method.id
+                }, status=status.HTTP_200_OK)
+            else:
+                # Create a PaymentMethod using the provided bank account details
+                payment_method = stripe.PaymentMethod.create(
+                    type="us_bank_account",  # For U.S. bank accounts
+                    us_bank_account={
+                        "routing_number": routing_number,
+                        "account_number": account_number,
+                        "account_holder_type": account_holder_type,  # 'individual' or 'company'
+                    }
+                )
+
+                # Return the payment method id back to the frontend
+                return Response({
+                    "payment_method_id": payment_method.id
+                }, status=status.HTTP_200_OK)
+
+        except stripe.error.StripeError as e:
+            # Handle errors from the Stripe API
+            return Response({
+                "error": str(e)
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CreateStripeAccountForSellerAPIView(views.APIView):
+    def post(self, request):
+        # Get data from requested parameter
+        email = request.data.get('email')
+
+        try:
+            # Step 1: Create a Stripe Standard Account for the seller
+            account = stripe.Account.create(
+                type="express",  # Standard account type
+                country="US",  # Seller's country (can be dynamic)
+                email=email,  # Seller's email address
+                capabilities={ "card_payments": {"requested": True}, "transfers": {"requested": True}},
+            )
+            
+            # Step 2: Generate the account link for Stripe onboarding
+            account_link = stripe.AccountLink.create(
+                account=account.id,
+                refresh_url="https://your-site.com/reauth",  # URL to refresh the link if needed
+                return_url="https://your-site.com/return_from_stripe",  # URL after onboarding is completed
+                type="account_onboarding",
+            )
+            
+            # Return the account ID and the link for the seller to complete onboarding
+            return Response({
+                "account_id": account.id,
+                "account_link": account_link.url
+            })
+
+        except stripe.error.StripeError as e:
+            # Handle Stripe API errors
+            return Response(responses.prepare_error_response(str(e)), status=400)
