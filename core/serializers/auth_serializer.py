@@ -70,3 +70,32 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             "access": access
         }
         return data
+
+# Todo: user can change his/her password after Sign In 
+class PasswordChangeSerializer(serializers.ModelSerializer):
+    old_password = serializers.CharField(write_only=True, required=True)
+    new_password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    confirm_password = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = User
+        fields = ['old_password', 'new_password', 'confirm_password']
+
+    def validate(self, attrs):
+        # Check if new_password and confirm_password match
+        if attrs['new_password'] != attrs['confirm_password']:
+            raise serializers.ValidationError({"confirm_password": "New password and confirm password must match."})
+        return attrs
+
+    def validate_old_password(self, value):
+        # Check if the old password is correct
+        user = self.context["request"].user
+        if not user.check_password(value):
+            raise serializers.ValidationError("Old password is not correct.")
+        return value
+
+    def save(self):
+        user = self.context['request'].user
+        user.set_password(self.validated_data['new_password'])
+        user.save()
+        return user
