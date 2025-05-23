@@ -38,5 +38,5 @@ This task cleans up dangling Docker images and unused containers to free up spac
 5. Click on `Run` button to trigger.
 
 
-## [Go to README](./README.md)%  
+## This deployment pipeline for bitbucket 
 
