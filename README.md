@@ -56,3 +56,16 @@ There are two branches here.
 git branch
 ```
 * Master
+
+
+> if you want to fix any kind of database migrations you should follow this instructions. 
+
+>> Open your terminal:
+```bash
+psql -U postgres
+```
+Then,
+```psql
+\c my-db;
+ALTER TABLE blog_post ADD COLUMN created_at with time zone DEFAULT now();
+```
