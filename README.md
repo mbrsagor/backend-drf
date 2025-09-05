@@ -1,5 +1,5 @@
 # DRF Backend API
-> Django Rest framework backend API server which has to implement Celery and Docker.
+> Django Rest framework backend API server, which has to implement Celery and Docker.
 
 ### Setup
 
@@ -16,10 +16,10 @@ up and running.
 - Django 3.2
 - Docker
 
-Create virtualenv in your system then follow the comments:
+Create a virtualenv in your system, then follow the comments:
 ```` virtualenv venv --python=python3.8 ````
 
-If you successfully create the virtualenv then activate:
+If you successfully create the virtualenv, then activate:
 ```source venv/bin/activate```
 
 > Then create `.env` file and paste code from the `.env-sample` file and update valid information.
@@ -58,7 +58,7 @@ git branch
 * Master
 
 
-> if you want to fix any kind of database migrations you should follow this instructions. 
+> if you want to fix any kind of database migrations, you should follow these instructions. 
 
 >> Open your terminal:
 ```bash
@@ -68,4 +68,12 @@ Then,
 ```psql
 \c my-db;
 ALTER TABLE blog_post ADD COLUMN created_at with time zone DEFAULT now();
+```
+
+> Docker:
+```bash
+docker exec -it postgres_db psql -U postgres
+\c db_name;
+ALTER TABLE catalogue_submission ADD COLUMN status INTEGER DEFAULT 1;
+ALTER TABLE catalogue_submission RENAME COLUMN old_field_name TO new_field_name;
 ```
