@@ -11,7 +11,7 @@ up and running.
 #### Dependencies
 ###### Prerequisites
 
-- Python 3.8.9 
+- Python 3.8
 - PostgreSQL 13.2
 - Django 3.2
 - Docker
@@ -22,7 +22,7 @@ Create a virtualenv in your system, then follow the comments:
 If you successfully create the virtualenv, then activate:
 ```source venv/bin/activate```
 
-> Then create `.env` file and paste code from the `.env-sample` file and update valid information.
+> Then create a `.env` file and paste code from the `.env-sample` file and update valid information.
 
 After that, you may run the `requirements.txt` file following the command:
 ```bash
@@ -58,7 +58,7 @@ git branch
 * Master
 
 
-> if you want to fix any kind of database migrations, you should follow these instructions. 
+> If you want to fix any kind of database migrations, you should follow these instructions. 
 
 >> Open your terminal:
 ```bash
