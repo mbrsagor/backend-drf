@@ -1,0 +1,40 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: EC2_HOST
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Deploy via SSH to EC2
+        uses: appleboy/ssh-action@v0.1.9
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # If the repo folder does not exist, clone it
+            if [ ! -d "backend-drf" ]; then
+              git clone https://${{ secrets.GH_TOKEN }}@github.com/mbrsagor/backend-drf.git
+            fi
+
+            # Change to the repo directory
+            cd backend-drf
+
+            # Checkout the correct branch and pull latest changes
+            git checkout develop
+            git pull origin develop
+            
+            # Restart Docker containers
+            docker-compose down
+            docker-compose build --no-cache
+            docker-compose up -d
+            echo "Deployment successfully completed! ✅"
+
