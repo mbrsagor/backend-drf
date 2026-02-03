@@ -1,9 +1,9 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
-from django.conf import settings
-from .models import Chat, GroupChat, GroupMessage
+
 from user.models import User
+from .models import Chat, GroupChat, GroupMessage
 from .serializers.chat_serializer import GroupMessageSerializer, ChatWithAttachmentSerializer
 
 
@@ -110,7 +110,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                      # Check if attachment exists and get URL
                      attachment_url = ""
                      if saved_msg.attachment:
-                         attachment_url = str(saved_msg.attachment)
+                         attachment_url = saved_msg.attachment.url
 
                      await self.channel_layer.group_send(
                          f"group_{group_id}",
@@ -140,7 +140,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         if saved_chat:
             attachment_url = ""
             if saved_chat.attachment:
-                attachment_url = str(saved_chat.attachment)
+                attachment_url = saved_chat.attachment.url
 
             message_packet = {
                 'type': 'chat_message',
@@ -166,6 +166,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     # Receive message from room group
     async def chat_message(self, event):
+        # Avoid duplicate message for the sender
+        if self.user.id == event.get('sender_id'):
+            return
+
         await self.send(text_data=json.dumps({
             'message': event['message'],
             'username': event['username'],
@@ -198,6 +202,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     # Group chat message
     async def group_chat_message(self, event):
+        # Avoid duplicate message for the sender
+        if self.user.id == event['sender_id']:
+            return
+
         await self.send(text_data=json.dumps({
             'type': 'group_message',
             'message': event['message'],
@@ -205,11 +213,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'sender_id': event['sender_id'],
             'sender_name': event['sender_name'],
             'sender_avatar': event['sender_avatar'],
-            'attachment': (
-                            f"{settings.MEDIA_URL}{event.get('attachment')}" 
-                            if event.get('attachment') and not event.get('attachment').startswith('http') 
-                            else event.get('attachment')
-                        ),
+            'attachment': event.get('attachment'),
             'timestamp': event['timestamp']
         }))
     
@@ -290,16 +294,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
              serializer = GroupMessageSerializer(data=data)
              if serializer.is_valid():
-                 return serializer.save(sender=self.user)
+                return serializer.save(sender=self.user)
              else:
-                 print(f"Serializer errors: {serializer.errors}")
-                 print(f"Data keys: {data.keys()}") 
-                 print(f"Data Payload: {data}")
+                #  print(f"Serializer errors: {serializer.errors}")
+                #  print(f"Data keys: {data.keys()}") 
                  return None
          except Exception as e:
              print(f"Error saving group message: {e}")
-             import traceback
-             print(traceback.format_exc())
          return None
 
     # Get user avatar
